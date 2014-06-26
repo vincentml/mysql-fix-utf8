@@ -1,7 +1,7 @@
 mysql-fix-utf8
 ==============
 
-Convert a MySQL database from Latin-1 to UTF-8
+Convert a MySQL database from Latin-1 to utf8mb4 (UTF-8)
 
 This script is an implementation of the steps described in the excellent blog post by Stephen Balukoff [Getting out of MySQL Character Set Hell](http://www.bluebox.net/about/blog/2009/07/mysql_encoding/)
 
@@ -11,15 +11,15 @@ This script is an implementation of the steps described in the excellent blog po
 You have a MySQL database that contains "broken special characters". Perhaps the database was running for a long time behind a Ruby or PHP application without much thought given to character encoding. Special characters appear corrupted in some places, and correctly in other places. You now want to fix your application and database to correctly handle special characters using Unicode. You've made the necessary changes in your application, but you still have to address the problem in your MySQL database. 
 
 
-MySQL has historically used latin1 as its default character encoding. Using latin1 can result in international and special characters being encoded and displayed incorrectly in some instances, especially if parts of your application expect a different encoding. Using UTF-8 consistently, everywhere, is usually the recommended way to handle character data and avoid such problems. Fixing these problems after they've had time to grow can be a challenge. This script converts a MySQL database from latin1 to UTF8 by dropping and recreating the database, then looping through every table and every column to correct characters.
+MySQL has historically used latin1 as its default character encoding. Using latin1 can result in international and special characters being encoded and displayed incorrectly in some instances, especially if parts of your application expect a different encoding. Using UTF-8 consistently, everywhere, is usually the recommended way to handle character data and avoid such problems. Fixing these problems after they've had time to grow can be a challenge. This script converts a MySQL database from latin1 to utfmb4 by dropping and recreating the database, then looping through every table and every column to correct characters.
 
 
 
 ## Using this script:
 
-First, read the article at https://www.bluebox.net/insight/blog-article/getting-out-of-mysql-character-set-hell. Do your research and decide on the best approach. Make any changes necessary for your application to use UTF-8 (which might include adding "encoding: utf8" to your database connection properties).
+First, read [Getting out of MySQL Character Set Hell](https://www.bluebox.net/insight/blog-article/getting-out-of-mysql-character-set-hell) and [How to support full Unicode in MySQL databases](http://mathiasbynens.be/notes/mysql-utf8mb4). Do your research and decide on the best approach. Make any changes necessary for your application to use UTF-8 (which might include adding "encoding: utf8mb4" to your database connection properties).
 
-To use this script you will need a linux shell, Perl, and a recent version of MySQL.
+To use this script you will need a linux shell, Perl, and MySQL 5.5.3 or higher.
 
 Make a copy of your production database into a test environment. **Do not run this script on a live database.**  Using the copy of your database:
 
@@ -29,7 +29,7 @@ Make a copy of your production database into a test environment. **Do not run th
 
 3. Run mysql_fix_utf8.sh: `chmod u+x mysql_fix_utf8.sh && ./mysql_fix_utf8.sh`
 
-Test and examine the effect of the script on your data. Once you're satisfied, decide how you want to apply the change on your production database.
+Test and examine the effect of the script on your data. You might find it necessary to change the SQL in the database export before it is re-imported, either by manually editing the file or modify the script to make any necessary changes for you. Once you're satisfied, decide how you want to apply the change on your production database. 
 
 
 ## YMMV

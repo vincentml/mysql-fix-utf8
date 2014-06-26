@@ -6,7 +6,7 @@ http://www.bluebox.net/about/blog/2009/07/mysql_encoding/
 call fix_utf8('database');
 */
 
-set names utf8;
+set names utf8mb4;
 drop procedure if exists fix_utf8;
 delimiter @@
 
@@ -58,7 +58,7 @@ loopt: loop
       execute stmt;
       deallocate prepare stmt;
       
-      set @dyn = concat('alter table temp_fixutf8 modify `', col_name, '` ', col_type, ' character set utf8;');
+      set @dyn = concat('alter table temp_fixutf8 modify `', col_name, '` ', col_type, ' character set utf8mb4;');
       prepare stmt from @dyn;
       execute stmt;
       deallocate prepare stmt;
