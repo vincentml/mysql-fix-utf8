@@ -4,9 +4,12 @@ password=PASSWORD
 user=root
 sqlBackup=~/backup.sql
 
+echo Running prepare script on database
+mysql -u $user -p$password --database $database < prepare_fix_utf8.sql
+
 echo Copying database
 # this makes a copy of the current database, or comment out the next line if you want to start with an existing backup.
-# mysqldump -p$password -u $user --opt -R --single-transaction --result-file="$sqlBackup" $database
+mysqldump -p$password -u $user --opt -R --single-transaction --result-file="$sqlBackup" $database
 cp $sqlBackup  ~/fix_utf8.sql
 
 echo  Clearing old data
